@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مدیریت پرونده‌ها - میزان آریا</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container top-bar-content">
+            <div class="contact-info">
+                <span>📞 ۰۹۰۳۱۳۶۵۱۶۲</span>
+                <span>📧 info@mizanarya.ir</span>
+                <span>📍 اهواز، خیابان کیانپارس</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <div class="logo">
+                <h1>میزان آریا</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">صفحه اصلی</a></li>
+                <li><a href="register.html" class="active">مدیریت پرونده‌ها</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <h2>ثبت پرونده جدید</h2>
+            <form id="caseForm">
+                <input type="text" id="clientName" placeholder="نام و نام خانوادگی موکل" required>
+                <input type="text" id="nationalId" placeholder="کد ملی" required>
+                <input type="tel" id="phone" placeholder="شماره تماس" required>
+                <input type="text" id="caseSubject" placeholder="موضوع پرونده" required>
+                <input type="text" id="caseNumber" placeholder="شماره پرونده" required>
+                <select id="status">
+                    <option value="در حال بررسی">در حال بررسی</option>
+                    <option value="در دادگاه">در دادگاه</option>
+                    <option value="بسته شده">بسته شده</option>
+                </select>
+                <input type="url" id="docsLink" placeholder="لینک مستندات (اختیاری)">
+                <button type="submit" class="btn-submit">ثبت پرونده</button>
+            </form>
+
+            <h2>جستجوی پرونده</h2>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="جستجو بر اساس نام خانوادگی یا کد ملی">
+                <button onclick="searchCase()" class="btn-search">جستجو</button>
+            </div>
+
+            <h2>لیست پرونده‌ها</h2>
+            <div id="casesList"></div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© تمامی حقوق برای دفتر وکالت میزان آریا محفوظ است</p>
+        </div>
+    </footer>
+
+    <script>
+        // Load cases on page load
+        displayCases();
+
+        document.getElementById('caseForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const caseData = {
+                id: Date.now(),
+                clientName: document.getElementById('clientName').value,
+                nationalId: document.getElementById('nationalId').value,
+                phone: document.getElementById('phone').value,
+                caseSubject: document.getElementById('caseSubject').value,
+                caseNumber: document.getElementById('caseNumber').value,
+                status: document.getElementById('status').value,
+                docsLink: document.getElementById('docsLink').value
+            };
+
+            let cases = JSON.parse(localStorage.getItem('cases')) || [];
+            cases.push(caseData);
+            localStorage.setItem('cases', JSON.stringify(cases));
+
+            alert('پرونده با موفقیت ثبت شد');
+            document.getElementById('caseForm').reset();
+            displayCases();
+        });
+
+        function displayCases(filter = '') {
+            let cases = JSON.parse(localStorage.getItem('cases')) || [];
+            
+            if (filter) {
+                cases = cases.filter(c => 
+                    c.clientName.includes(filter) || c.nationalId.includes(filter)
+                );
+            }
+
+            const list = document.getElementById('casesList');
+            list.innerHTML = '';
+
+            if (cases.length === 0) {
+                list.innerHTML = '<p>هیچ پرونده‌ای یافت نشد</p>';
+                return;
+            }
+
+            cases.forEach(c => {
+                const div = document.createElement('div');
+                div.className = 'case-item';
+                div.innerHTML = `
+                    <h3>${c.clientName}</h3>
+                    <p><strong>کد ملی:</strong> ${c.nationalId}</p>
+                    <p><strong>شماره پرونده:</strong> ${c.caseNumber}</p>
+                    <p><strong>موضوع:</strong> ${c.caseSubject}</p>
+                    <p><strong>وضعیت:</strong> <span class="status">${c.status}</span></p>
+                    ${c.docsLink ? `<p><a href="${c.docsLink}" target="_blank">مشاهده مستندات</a></p>` : ''}
+                    <button onclick="deleteCase(${c.id})" class="btn-delete">حذف</button>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function searchCase() {
+            const query = document.getElementById('searchInput').value;
+            displayCases(query);
+        }
+
+        function deleteCase(id) {
+            if (confirm('آیا مطمئن هستید؟')) {
+                let cases = JSON.parse(localStorage.getItem('cases')) || [];
+                cases = cases.filter(c => c.id !== id);
+                localStorage.setItem('cases', JSON.stringify(cases));
+                displayCases();
+            }
+        }
+    </script>
+</body>
+</html>

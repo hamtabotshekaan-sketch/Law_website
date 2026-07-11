@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دفتر وکالت میزان آریا</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container top-bar-content">
+            <div class="contact-info">
+                <span>📞 ۰۹۰۳۱۳۶۵۱۶۲</span>
+                <span>📧 info@mizanarya.ir</span>
+                <span>📍 اهواز، کیانپارس</span>
+                <span>🕒 شنبه تا پنج‌شنبه: ۸ صبح تا ۸ شب</span>
+            </div>
+            <div class="social-icons">
+                <a href="#" aria-label="Instagram">📷</a>
+                <a href="#" aria-label="WhatsApp">💬</a>
+                <a href="#" aria-label="Telegram">✈️</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <div class="logo">
+                <h1>میزان آریا</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="active">صفحه اصلی</a></li>
+                <li><a href="#services">خدمات</a></li>
+                <li><a href="about.html">درباره ما</a></li>
+                <li><a href="register.html">مدیریت پرونده‌ها</a></li>
+                <li><a href="contact.html">تماس با ما</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Lawyer Profile (top-left corner) -->
+    <div class="lawyer-profile">
+        <img src="images/profile..jpg" alt="دکتر حمید میزانی">
+        <div class="profile-name">دکتر حمید میزانی</div>
+    </div>
+
+    <!-- Slider -->
+    <section class="slider">
+        <div class="slide active">
+            <img src="images/slider1.jpg" alt="وکالت حرفه‌ای">
+            <div class="slide-overlay"></div>
+            <div class="slide-content">
+                <h2>وکیل برتر</h2>
+                <p>برای دفاع از حقوق خود با بهترین وکلا مشورت کنید</p>
+                <a href="register.html" class="cta-btn">اینجا کلیک کنید</a>
+            </div>
+        </div>
+        <div class="slide">
+            <img src="images/slider2.jpg" alt="عدالت">
+            <div class="slide-overlay"></div>
+            <div class="slide-content">
+                <h2>عدالت برای همه</h2>
+                <p>ما متعهد به ارائه خدمات حقوقی با کیفیت هستیم</p>
+                <a href="#services" class="cta-btn">خدمات ما</a>
+            </div>
+        </div>
+        <div class="slide">
+            <img src="images/slider3.jpg" alt="مشاوره حقوقی">
+            <div class="slide-overlay"></div>
+            <div class="slide-content">
+                <h2>مشاوره تخصصی</h2>
+                <p>راهنمایی و مشاوره در تمامی امور حقوقی و قضایی</p>
+                <a href="#contact" class="cta-btn">رزرو وقت</a>
+            </div>
+        </div>
+        <button class="slider-btn prev" onclick="changeSlide(-1)">&#10094;</button>
+        <button class="slider-btn next" onclick="changeSlide(1)">&#10095;</button>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <h2>خدمات ما</h2>
+            <div class="service-cards">
+                <div class="card">
+                    <h3>وکالت در دعاوی کیفری</h3>
+                    <p>دفاع تخصصی در پرونده‌های کیفری</p>
+                </div>
+                <div class="card">
+                    <h3>وکالت در دعاوی حقوقی</h3>
+                    <p>پیگیری دعاوی حقوقی و مدنی</p>
+                </div>
+                <div class="card">
+                    <h3>مشاوره خانواده</h3>
+                    <p>مشاوره و وکالت در امور خانوادگی</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>© تمامی حقوق برای دفتر وکالت میزان آریا محفوظ است | طراحی شده با ❤️</p>
+        </div>
+    </footer>
+
+    <script>
+        // Slider Auto & Manual
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        
+        function showSlide(n) {
+            slides.forEach(s => s.classList.remove('active'));
+            currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+        
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+        
+        // Auto slide every 4 seconds
+        setInterval(() => {
+            showSlide(currentSlide + 1);
+        }, 4000);
+    </script>
+</body>
+</html>
